@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.lessons.LessonsApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-09T17:54:41.899Z" hostname="MacP30s-MacBook-Pro.local" time="0.846">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.lessons.LessonsApplicationTests" time="0.325"/>
+  <system-out><![CDATA[21:54:41.941 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.lessons.LessonsApplicationTests]: LessonsApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+21:54:41.972 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.lessons.LessonsApplication for test class com.lessons.LessonsApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.3)
+
+2026-08-09T21:54:42.099+04:00  INFO 24865 --- [lessons] [    Test worker] com.lessons.LessonsApplicationTests      : Starting LessonsApplicationTests using Java 26.0.2 with PID 24865 (started by macp30 in /Users/macp30/projects/Java/Lessons)
+2026-08-09T21:54:42.100+04:00  INFO 24865 --- [lessons] [    Test worker] com.lessons.LessonsApplicationTests      : No active profile set, falling back to 1 default profile: "default"
+2026-08-09T21:54:42.415+04:00  INFO 24865 --- [lessons] [    Test worker] com.lessons.LessonsApplicationTests      : Started LessonsApplicationTests in 0.4 seconds (process running for 0.768)
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/Users/macp30/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.17.6/17b32fd9f57deef02842f7f05abc4ad8127fe34e/byte-buddy-agent-1.17.6.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>
