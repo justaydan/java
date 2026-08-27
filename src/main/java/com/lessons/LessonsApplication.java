@@ -15,37 +15,27 @@ import java.util.List;
 public class LessonsApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(LessonsApplication.class, args);
+//    1.EmployeeService sinifindəki getEmployee() metodunu @Transactional(readOnly = true)
+//    ilə işarələ, saveEmployee() metodunu isə adi @Transactional ilə.
+//    application.
+//    properties-də Hibernate SQL logundan izlə —
+//    hər iki metodun fərqli davranışını müşahidə et.
 
-//        1.BookRepository-dən kitabları Pageable ilə çək:
-//        PageRequest.of(0, 5, Sort.by("title")) istifadə edərək ilk 5 kitabı əlifba sırasına görə gətir.
-//        Nəticədəki Page obyektindən ümumi səhifə sayını, cəmi element sayını və hazırkı səhifənin məzmununu konsola yazdır.
-//        BookService service = context.getBean(BookService.class);
-//
-//        var page = service.findAll(0, 5, "title");
-//
-//        System.out.println("Total pages: " + page.getTotalPages());
-//        System.out.println("Total elements: " + page.getTotalElements());
-//        System.out.println("Current page content:");
-//        page.getContent().forEach(System.out::println);
+//        OrderService service = context.getBean(OrderService.class);
+//        service.save(new EmployeeEntity(null, "test", 0.45));
 
-//        2. ProductService-in findCheapProducts() metodu @Transactional(readOnly = true) olsun
-//        və ProductRepository-dən qiyməti müəyyən həddən aşağı olan məhsulları Pageable ilə
-//        gətirsin. İstifadəçi hər dəfə fərqli səhifə nömrəsi və ölçüsü göndərə bilsin — metod
-//        bu parametrləri qəbul etsin. Nəticəni qiymətə görə artan sırada çap et.
-//        ProductService service = context.getBean(ProductService.class);
-//        System.out.println(service.findCheapProducts(10, 1, 1));;
+//        2.OrderService-in cancelOrder() metodu @Transactional olsun.
+//        Ləğv əməliyyatı zamanı özün yaratdığın OrderAlreadyCancelledException atıldıqda rollback baş verməsin,
+//        amma StockUpdateException atıldıqda mütləq rollback baş versin.
+//        rollbackFor və noRollbackFor atributlarından istifadə edib hər iki halı test et.
+//        service.cancelOrder();
 
-//        3.InvoiceService-in generateInvoice() metodu @Transactional ilə işarələnib.
-//        Bu metod içindən LogService-in writeLog() metodunu çağırır (REQUIRES_NEW).
-//        generateInvoice() xəta atdıqda rollback edilsin, amma writeLog() öz transaction-ında saxlanılsın.
-//        Eyni zamanda InvoiceRepository-dən fakturları Pageable ilə çəkən,
-//        hər səhifədə 10 faktura göstərən, tarixə görə azalan sırada sıralayan metod yaz.
-//        Bütün üç konsepti (readOnly, REQUIRES_NEW, Pageable) bir ssenarinin içinə yerləşdir.
-
-        InvoiceService service = context.getBean(InvoiceService.class);
-//        service.generateInvoice();
-        var page = service.get(0, 10);
-        System.out.println("Total elements: " + page.getTotalElements());
-        page.getContent().forEach(System.out::println);
+//        3.CustomerService-in deleteCustomer() metodu @Transactional ilə işarələnib.
+//        Bu metod içindən NotificationService-in sendDeletionAlert() metodunu çağırır — bu
+//        metod REQUIRES_NEW ilə öz ayrı transaction-ında işləsin ki,
+//        əsas silmə əməliyyatı uğursuz olsa belə bildiriş loqu bazaya yazılsın.
+//        Hər iki propagation rejimini müqayisə edib fərqi konsol çıxışında göstər.
+        CustomerService customerService = context.getBean(CustomerService.class);
+        customerService.deleteCustomer();
     }
 }
