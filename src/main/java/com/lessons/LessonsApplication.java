@@ -3,8 +3,8 @@ package com.lessons;
 import com.lessons.entity.AuthorEntity;
 import com.lessons.entity.BookEntity;
 import com.lessons.entity.DepartmentEntity;
-import com.lessons.service.BookService;
-import com.lessons.service.DepartmentService;
+import com.lessons.entity.EmployeeEntity;
+import com.lessons.service.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -15,40 +15,27 @@ import java.util.List;
 public class LessonsApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(LessonsApplication.class, args);
-//        1:Author (id, name) və Book (id, title, author) entity-lərini yarat.
-//            Aralarında @ManyToOne (Book tərəfindən) əlaqəsi qur, defolt olaraq bu əlaqənin
-//        LAZY yoxsa EAGER olduğunu sənədləşdirmədən yoxla və kodda fetch
-//        tipini açıq şəkildə göstər. Bir neçə müəllif və kitab əlavə edib,
-//                kitabı çəkəndə müəllifin nə vaxt (hansı sorğu ilə) yükləndiyini
-//        konsolda loqa yaz.
+//    1.EmployeeService sinifindəki getEmployee() metodunu @Transactional(readOnly = true)
+//    ilə işarələ, saveEmployee() metodunu isə adi @Transactional ilə.
+//    application.
+//    properties-də Hibernate SQL logundan izlə —
+//    hər iki metodun fərqli davranışını müşahidə et.
 
-        BookService bookService = context.getBean(BookService.class);
+//        OrderService service = context.getBean(OrderService.class);
+//        service.save(new EmployeeEntity(null, "test", 0.45));
 
-        // Save authors first, then assign to books
-//        AuthorEntity tolstoy = bookService.saveAuthor(new AuthorEntity(null, "Tolstoy"));
-//        AuthorEntity kafka = bookService.saveAuthor(new AuthorEntity(null, "Kafka"));
-//
-//        bookService.save(new BookEntity(null, "War and Peace", 1869, true, tolstoy));
-//        bookService.save(new BookEntity(null, "Anna Karenina", 1878, true, tolstoy));
-//        bookService.save(new BookEntity(null, "The Metamorphosis", 1915, true, kafka));
+//        2.OrderService-in cancelOrder() metodu @Transactional olsun.
+//        Ləğv əməliyyatı zamanı özün yaratdığın OrderAlreadyCancelledException atıldıqda rollback baş verməsin,
+//        amma StockUpdateException atıldıqda mütləq rollback baş versin.
+//        rollbackFor və noRollbackFor atributlarından istifadə edib hər iki halı test et.
+//        service.cancelOrder();
 
-        // Lazt test will recieve 2 sql without EntityGraph
-//        System.out.println("--- EAGER fetch test ---");
-//        bookService.findByTitleContaining("War");
-
-//
-//        Department(id, name) və Employee (id, name, department)entity - lərini yarat.
-//                Department - də @OneToMany(mappedBy = "department")
-//        ilə işçilər siyahısını saxla,
-//        Employee - də isə @ManyToOne ilə departamenti.
-//                Department - i LAZY yükləyərək çəkəndə, işçilər siyahısına
-//        toxunmadan əvvəl və sonra neçə SQL sorğusunun
-//        icra olunduğunu müşahidə et
-//        (Hibernate SQL logging aç).N + 1 problemi baş verirmi, izah et.
-
-        DepartmentService departmentService = context.getBean(DepartmentService.class);
-//        departmentService.save(new DepartmentEntity(null, "HR", List.of()));
-//        departmentService.save(new DepartmentEntity(null, "IT", List.of()));
-       departmentService.printWithNPlusOne();
+//        3.CustomerService-in deleteCustomer() metodu @Transactional ilə işarələnib.
+//        Bu metod içindən NotificationService-in sendDeletionAlert() metodunu çağırır — bu
+//        metod REQUIRES_NEW ilə öz ayrı transaction-ında işləsin ki,
+//        əsas silmə əməliyyatı uğursuz olsa belə bildiriş loqu bazaya yazılsın.
+//        Hər iki propagation rejimini müqayisə edib fərqi konsol çıxışında göstər.
+        CustomerService customerService = context.getBean(CustomerService.class);
+        customerService.deleteCustomer();
     }
 }

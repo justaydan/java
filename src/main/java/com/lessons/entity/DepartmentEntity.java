@@ -21,7 +21,7 @@ public class DepartmentEntity {
 
     private String name;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
-    private List<EmployeeEntity> employees;
+//    @ToString.Exclude
+//    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+//    private List<EmployeeEntity> employees;
 }

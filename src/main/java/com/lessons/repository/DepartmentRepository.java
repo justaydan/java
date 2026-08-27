@@ -9,14 +9,12 @@ import java.util.List;
 
 public interface DepartmentRepository extends JpaRepository<DepartmentEntity, Long> {
 
-    List<DepartmentEntity> findByEmployeesName(String name);
+//    List<DepartmentEntity> findByEmployeesName(String name);
 
-    // N+1 — no graph, loads employees lazily (separate query per department)
-    @Query("SELECT d FROM DepartmentEntity d")
-    List<DepartmentEntity> findAllNPlusOne();
+//    @Query("SELECT d FROM DepartmentEntity d")
+//    List<DepartmentEntity> findAllNPlusOne();
 
-    // Solution — single JOIN query
-    @EntityGraph(attributePaths = "employees")
-    @Override
-    List<DepartmentEntity> findAll();
+//    @EntityGraph(attributePaths = "employees")
+//    @Override
+//    List<DepartmentEntity> findAll();
 }

@@ -2,6 +2,7 @@ package com.lessons.service;
 
 import com.lessons.entity.EmployeeEntity;
 import com.lessons.repository.EmployeeRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,15 +15,14 @@ public class EmployeeService {
         this.employeeRepository = repository;
     }
 
+    @Transactional
     public void save(EmployeeEntity employeeEntity) {
+
         employeeRepository.save(employeeEntity);
     }
 
-    public List<EmployeeEntity> findByDepartment(String departmentName) {
-        return employeeRepository.findByDepartmentName(departmentName);
-    }
-
-    public List<EmployeeEntity> findBySalaryGreaterThan(Double salary) {
-        return employeeRepository.findBySalaryGreaterThan(salary);
+    @Transactional()
+    public List<EmployeeEntity> getEmployee() {
+        return employeeRepository.findAll();
     }
 }
