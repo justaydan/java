@@ -4,7 +4,9 @@ import com.lessons.entity.AuthorEntity;
 import com.lessons.entity.BookEntity;
 import com.lessons.repository.AuthorRepository;
 import com.lessons.repository.BookRepository;
-import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,34 +31,12 @@ public class BookService {
         return bookRepository.save(bookEntity);
     }
 
-    @Transactional
-    public void printBooksByAuthor(String name) {
-        bookRepository.findByAuthorName(name).forEach(b ->
-                        System.out.println("Book: " + b.getTitle()
-//                        + ", Author: " + b.getAuthor().getName()
-                        )
-        );
+
+    public List<BookEntity> findAll() {
+        return bookRepository.findAll();
     }
 
-    public List<BookEntity> findByPublishedYearGreaterThanAndAvailableTrue(Integer year) {
-        return bookRepository.findByPublishedYearGreaterThanAndAvailableTrue(year);
-    }
-
-    @Transactional
-    public void findByTitleContaining(String title) {
-        bookRepository.findByTitleContaining(title).forEach(b ->
-                System.out.println("Book: " + b.getTitle()
-                        + ", Author: "
-                        + b.getAuthor().getName()
-                )
-        );
-    }
-
-    public Boolean existsByTitle(String title) {
-        return bookRepository.existsByTitle(title);
-    }
-
-    public void deleteByAuthor(String name) {
-        bookRepository.deleteByAuthorName(name);
+    public Page<BookEntity> findAll(int page, int size, String sortBy) {
+        return bookRepository.findAll(PageRequest.of(page, size, Sort.by(sortBy)));
     }
 }
