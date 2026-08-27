@@ -1,6 +1,6 @@
 package com.lessons.service;
 
-import com.lessons.entity.Employee;
+import com.lessons.entity.EmployeeEntity;
 import com.lessons.repository.EmployeeRepository;
 
 import java.util.List;
@@ -14,15 +14,15 @@ public class EmployeeService {
         this.employeeRepository = repository;
     }
 
-    public void save(Employee employee) {
-        employeeRepository.save(employee);
+    public void save(EmployeeEntity employeeEntity) {
+        employeeRepository.save(employeeEntity);
     }
 
-    public List<Employee> findByDepartment(String department) {
-        return employeeRepository.findByDepartment(department);
+    public List<EmployeeEntity> findByDepartment(String departmentName) {
+        return employeeRepository.findByDepartmentName(departmentName);
     }
 
-    public List<Employee> findBySalaryGreaterThan(Double salary) {
+    public List<EmployeeEntity> findBySalaryGreaterThan(Double salary) {
         return employeeRepository.findBySalaryGreaterThan(salary);
     }
 }

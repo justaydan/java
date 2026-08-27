@@ -1,6 +1,6 @@
 package com.lessons.service;
 
-import com.lessons.entity.Product;
+import com.lessons.entity.ProductEntity;
 import com.lessons.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +14,11 @@ public class ProductService {
         this.repository = repository;
     }
 
-    public Product save(Product product) {
-        return this.repository.save(product);
+    public ProductEntity save(ProductEntity productEntity) {
+        return this.repository.save(productEntity);
     }
 
-    public List<Product> findAll() {
+    public List<ProductEntity> findAll() {
         return repository.findAll();
     }
 }

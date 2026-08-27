@@ -1,6 +1,7 @@
 package com.lessons.entity;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,14 +11,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "books")
-public class Book {
+public class BookEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
-    private String author;
     private Integer publishedYear;
     private Boolean available;
+
+    @ToString.Exclude
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private AuthorEntity author;
 }

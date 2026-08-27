@@ -1,7 +1,10 @@
 package com.lessons.service;
 
-import com.lessons.entity.Book;
+import com.lessons.entity.AuthorEntity;
+import com.lessons.entity.BookEntity;
+import com.lessons.repository.AuthorRepository;
 import com.lessons.repository.BookRepository;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,33 +14,49 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
-    public BookService(BookRepository repository) {
-        this.bookRepository = repository;
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository) {
+        this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
-    public Book save(Book book) {
-        return bookRepository.save(book);
+    public AuthorEntity saveAuthor(AuthorEntity author) {
+        return authorRepository.save(author);
     }
 
-    public List<Book> findByAuthor(String author) {
-        return bookRepository.findByAuthor(author);
+    public BookEntity save(BookEntity bookEntity) {
+        return bookRepository.save(bookEntity);
     }
 
-    public List<Book> findByPublishedYearGreaterThanAndAvailableTrue(Integer year) {
+    @Transactional
+    public void printBooksByAuthor(String name) {
+        bookRepository.findByAuthorName(name).forEach(b ->
+                        System.out.println("Book: " + b.getTitle()
+//                        + ", Author: " + b.getAuthor().getName()
+                        )
+        );
+    }
+
+    public List<BookEntity> findByPublishedYearGreaterThanAndAvailableTrue(Integer year) {
         return bookRepository.findByPublishedYearGreaterThanAndAvailableTrue(year);
     }
 
-    public List<Book> findByTitleContaining(String title) {
-        return bookRepository.findByTitleContaining(title);
+    @Transactional
+    public void findByTitleContaining(String title) {
+        bookRepository.findByTitleContaining(title).forEach(b ->
+                System.out.println("Book: " + b.getTitle()
+                        + ", Author: "
+                        + b.getAuthor().getName()
+                )
+        );
     }
 
     public Boolean existsByTitle(String title) {
         return bookRepository.existsByTitle(title);
     }
 
-    @Transactional
-    public void deleteByAuthor(String author) {
-        bookRepository.deleteByAuthor(author);
+    public void deleteByAuthor(String name) {
+        bookRepository.deleteByAuthorName(name);
     }
 }
