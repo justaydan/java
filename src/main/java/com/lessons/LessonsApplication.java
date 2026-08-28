@@ -1,9 +1,8 @@
 package com.lessons;
 
-import com.lessons.entity.AuthorEntity;
-import com.lessons.entity.BookEntity;
-import com.lessons.entity.DepartmentEntity;
-import com.lessons.entity.EmployeeEntity;
+import com.lessons.entity.*;
+import com.lessons.enums.EmploymentType;
+import com.lessons.enums.OrderStatus;
 import com.lessons.service.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,27 +14,29 @@ import java.util.List;
 public class LessonsApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(LessonsApplication.class, args);
-//    1.EmployeeService sinifindəki getEmployee() metodunu @Transactional(readOnly = true)
-//    ilə işarələ, saveEmployee() metodunu isə adi @Transactional ilə.
-//    application.
-//    properties-də Hibernate SQL logundan izlə —
-//    hər iki metodun fərqli davranışını müşahidə et.
-
+//        1.OrderStatus enum-u yarat (NEW, PROCESSING, SHIPPED, DELIVERED).
+//        Order entity-sinə bu enum-u sahə kimi əlavə et.
+//        @Enumerated(EnumType.STRING) ilə işarələ, bir neçə sifariş saxla və bazada statusun
+//        necə saxlandığını yoxla. Sonra EnumType.ORDINAL ilə dəyişdirərək fərqi müşahidə et.
 //        OrderService service = context.getBean(OrderService.class);
-//        service.save(new EmployeeEntity(null, "test", 0.45));
+//        service.save(new OrderEntity(null, OrderStatus.NEW));
 
-//        2.OrderService-in cancelOrder() metodu @Transactional olsun.
-//        Ləğv əməliyyatı zamanı özün yaratdığın OrderAlreadyCancelledException atıldıqda rollback baş verməsin,
-//        amma StockUpdateException atıldıqda mütləq rollback baş versin.
-//        rollbackFor və noRollbackFor atributlarından istifadə edib hər iki halı test et.
-//        service.cancelOrder();
+//        2.Money adlı @Embeddable sinif yarat (amount, currency sahələri ilə).
+//        Product entity-sinə həm price (satış qiyməti), həm də costPrice (maya dəyəri)
+//        sahələrini Money tipi ilə əlavə et. Eyni @Embeddable sinifi bir entity-də iki dəfə
+//        istifadə etdiyindən @AttributeOverrides lazım olacaq — sütun adlarının toqquşmaması üçün tətbiq et.
 
-//        3.CustomerService-in deleteCustomer() metodu @Transactional ilə işarələnib.
-//        Bu metod içindən NotificationService-in sendDeletionAlert() metodunu çağırır — bu
-//        metod REQUIRES_NEW ilə öz ayrı transaction-ında işləsin ki,
-//        əsas silmə əməliyyatı uğursuz olsa belə bildiriş loqu bazaya yazılsın.
-//        Hər iki propagation rejimini müqayisə edib fərqi konsol çıxışında göstər.
-        CustomerService customerService = context.getBean(CustomerService.class);
-        customerService.deleteCustomer();
+//        ProductService service = context.getBean(ProductService.class);
+//        System.out.println(service.findAll().getFirst().getCostPrice().getAmount());
+
+//        3.PersonName (firstName, lastName) və ContactInfo (email, phone) adlı iki ayrı
+//        @Embeddable sinif yarat. Employee entity-sinə hər ikisini @Embedded ilə əlavə et,
+//        @Enumerated(EnumType.STRING) ilə EmploymentType enum-unu da (FULL_TIME, PART_TIME, CONTRACT) saxla.
+//        EmployeeRepository-dən FULL_TIME işçiləri Pageable ilə çəkən, soyadına görə sıralayan metod yaz.
+//        Bu tapşırıqda @Embedded, @Enumerated və Pageable üçünü birləşdir.
+
+        EmployeeService service = context.getBean(EmployeeService.class);
+        System.out.println( service.getByType(EmploymentType.FULL_TIME).getContent());
+
     }
 }

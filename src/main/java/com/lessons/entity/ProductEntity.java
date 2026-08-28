@@ -18,5 +18,19 @@ public class ProductEntity {
 
     private String name;
 
-    private Double price;
+//    private Double price;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "amount", column = @Column(name = "price_amount")),
+            @AttributeOverride(name = "currency", column = @Column(name = "price_currency"))
+    })
+    private Money price;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "amount", column = @Column(name = "cost_price_amount")),
+            @AttributeOverride(name = "currency", column = @Column(name = "cost_price_currency"))
+    })
+    private Money costPrice;
 }

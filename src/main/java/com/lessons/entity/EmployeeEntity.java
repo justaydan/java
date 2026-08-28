@@ -1,5 +1,6 @@
 package com.lessons.entity;
 
+import com.lessons.enums.EmploymentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,15 @@ public class EmployeeEntity {
 //    private DepartmentEntity department;
 
     private Double salary;
+
+    @Embedded
+    private PersonName personName;
+
+    @Embedded
+    private ContactInfo contactInfo;
+
+    @Enumerated(EnumType.STRING)
+    private EmploymentType type;
 
 
 }

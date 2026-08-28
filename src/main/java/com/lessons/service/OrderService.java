@@ -1,8 +1,11 @@
 package com.lessons.service;
 
 import com.lessons.entity.EmployeeEntity;
+import com.lessons.entity.OrderEntity;
 import com.lessons.exception.OrderAlreadyCancelledException;
 import com.lessons.exception.StockUpdateException;
+import com.lessons.repository.OrderRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,15 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderService {
 
     private EmployeeService employeeService;
+    private OrderRepository orderRepository;
 
-    public OrderService(EmployeeService service) {
+    public OrderService(EmployeeService service, OrderRepository repository) {
+        orderRepository = repository;
         employeeService = service;
     }
 
-    @Transactional(noRollbackFor = OrderAlreadyCancelledException.class, rollbackFor = StockUpdateException.class)
-    public void cancelOrder() {
-        employeeService.save(new EmployeeEntity(null, "test", 0.35));
-        throw new StockUpdateException("message");
-//        throw new OrderAlreadyCancelledException(3L);
+
+    public void save(OrderEntity entity) {
+        orderRepository.save(entity);
     }
+
 }
