@@ -14,29 +14,19 @@ import java.util.List;
 public class LessonsApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(LessonsApplication.class, args);
-//        1.OrderStatus enum-u yarat (NEW, PROCESSING, SHIPPED, DELIVERED).
-//        Order entity-sinə bu enum-u sahə kimi əlavə et.
-//        @Enumerated(EnumType.STRING) ilə işarələ, bir neçə sifariş saxla və bazada statusun
-//        necə saxlandığını yoxla. Sonra EnumType.ORDINAL ilə dəyişdirərək fərqi müşahidə et.
-//        OrderService service = context.getBean(OrderService.class);
-//        service.save(new OrderEntity(null, OrderStatus.NEW));
+//        1. ProductController classi yarat, @RestController ilə işarələ. /api/products endpoint-i bütün məhsulları qaytarsın,
+//        /api/products/{id} isə id-yə görə tək məhsul qaytarsın. Hər ikisini @GetMapping ilə təyin et, ProductService-dən məlumatları al.
 
-//        2.Money adlı @Embeddable sinif yarat (amount, currency sahələri ilə).
-//        Product entity-sinə həm price (satış qiyməti), həm də costPrice (maya dəyəri)
-//        sahələrini Money tipi ilə əlavə et. Eyni @Embeddable sinifi bir entity-də iki dəfə
-//        istifadə etdiyindən @AttributeOverrides lazım olacaq — sütun adlarının toqquşmaması üçün tətbiq et.
 
-//        ProductService service = context.getBean(ProductService.class);
-//        System.out.println(service.findAll().getFirst().getCostPrice().getAmount());
+//        2. EmployeeController-da /api/employees endpoint-i bütün işçiləri qaytarsın.
+//        Əlavə olaraq /api/employees/search endpoint-i department adlı query parametr qəbul etsin
+//        (@RequestParam) — həmin departamentdəki işçiləri filtrələyib qaytarsın. department parametri göndərilmədikdə bütün işçilər qaytarılsın.
 
-//        3.PersonName (firstName, lastName) və ContactInfo (email, phone) adlı iki ayrı
-//        @Embeddable sinif yarat. Employee entity-sinə hər ikisini @Embedded ilə əlavə et,
-//        @Enumerated(EnumType.STRING) ilə EmploymentType enum-unu da (FULL_TIME, PART_TIME, CONTRACT) saxla.
-//        EmployeeRepository-dən FULL_TIME işçiləri Pageable ilə çəkən, soyadına görə sıralayan metod yaz.
-//        Bu tapşırıqda @Embedded, @Enumerated və Pageable üçünü birləşdir.
 
-        EmployeeService service = context.getBean(EmployeeService.class);
-        System.out.println( service.getByType(EmploymentType.FULL_TIME).getContent());
+//        3. OrderController-da üç fərqli @GetMapping endpoint-i yarat: /api/orders/{id} — id-yə görə tək
+//        sifariş, /api/orders/customer/{customerId} — müştəriyə aid bütün sifarişlər, /api/orders — status
+//        query parametrinə görə filtrələnmiş sifarişlər (@RequestParam ilə, parametr olmadıqda hamısı
+//        qaytarılsın). Hər endpoint üçün @PathVariable və @RequestParam tətbiq et.
 
     }
 }

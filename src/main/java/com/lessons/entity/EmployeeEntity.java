@@ -19,9 +19,9 @@ public class EmployeeEntity {
 
     private String name;
 
-//    @ToString.Exclude
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private DepartmentEntity department;
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DepartmentEntity department;
 
     private Double salary;
 

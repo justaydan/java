@@ -34,4 +34,8 @@ public class EmployeeService {
     public Page<EmployeeEntity> getByType(EmploymentType type) {
         return employeeRepository.findByType(type, PageRequest.of(0, 10, Sort.by("personName.firstName")));
     }
+
+    public List<EmployeeEntity> getByDepartment(String department) {
+        return employeeRepository.findByDepartmentName(department);
+    }
 }

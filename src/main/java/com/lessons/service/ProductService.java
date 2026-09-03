@@ -5,6 +5,7 @@ import com.lessons.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -20,5 +21,9 @@ public class ProductService {
 
     public List<ProductEntity> findAll() {
         return repository.findAll();
+    }
+
+    public Optional<ProductEntity> getById(Long id) {
+        return repository.findById(id);
     }
 }
