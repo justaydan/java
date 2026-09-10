@@ -1,12 +1,14 @@
 package com.lessons.service;
 
-import com.lessons.entity.OrderEntity;
+import com.lessons.exception.NotFoundException;
+import com.lessons.exception.OrderNotFoundException;
+import com.lessons.exception.OrderStatusTransitionException;
+import com.lessons.model.entity.CustomerEntity;
+import com.lessons.model.entity.OrderEntity;
 import com.lessons.enums.OrderStatus;
-import com.lessons.exception.OrderAlreadyCancelledException;
-import com.lessons.exception.StockUpdateException;
+import com.lessons.repository.CustomerRepository;
 import com.lessons.repository.OrderRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ public class OrderService {
 
     private EmployeeService employeeService;
     private OrderRepository orderRepository;
+    private CustomerRepository customerRepository;
 
 
     public void save(OrderEntity entity) {
@@ -40,5 +43,33 @@ public class OrderService {
         List<OrderEntity> result = orderRepository.findByStatus(status);
         return result.isEmpty() ? orderRepository.findAll() : result;
     }
+
+    @Transactional
+    public OrderEntity updateStatus(Long id, OrderStatus newStatus) {
+        OrderEntity order = orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order not found: " + id));
+
+        if (!order.getStatus().canTransitionTo(newStatus) && order.getStatus() != newStatus) {
+            throw new OrderStatusTransitionException("Cannot transition from " + order.getStatus() + " to " + newStatus);
+        }
+
+        order.setStatus(newStatus);
+        return order;
+    }
+
+    @Transactional
+    public OrderEntity update(Long id, OrderEntity entity) {
+        OrderEntity orderEntity = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("Order not found: " + id));
+
+        CustomerEntity customer = customerRepository.findById(entity.getCustomer().getId())
+                .orElseThrow(() -> new NotFoundException("Customer not found: " + entity.getCustomer().getId()));
+
+        orderEntity.setCustomer(customer);
+        orderEntity.setName(entity.getName());
+        orderEntity.setStatus(entity.getStatus());
+        return orderEntity;
+    }
+
 
 }

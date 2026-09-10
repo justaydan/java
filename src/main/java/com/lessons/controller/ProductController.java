@@ -1,15 +1,16 @@
 package com.lessons.controller;
 
+import com.lessons.model.request.ProductRequest;
 import com.lessons.model.response.ProductResponse;
 import com.lessons.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/products")
 @AllArgsConstructor
@@ -28,5 +29,10 @@ public class ProductController {
         return productService.findAll().stream()
                 .map(ProductResponse::from)
                 .toList();
+    }
+
+    @PutMapping("/{id}")
+    public ProductResponse update(@PathVariable Long id, @RequestBody @Valid ProductRequest request) {
+        return ProductResponse.from(productService.update(id, request.toEntity()));
     }
 }

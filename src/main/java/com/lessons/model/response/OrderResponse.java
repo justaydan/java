@@ -1,9 +1,8 @@
 package com.lessons.model.response;
 
-import com.lessons.entity.CustomerEntity;
-import com.lessons.entity.OrderEntity;
+import com.lessons.model.entity.CustomerEntity;
+import com.lessons.model.entity.OrderEntity;
 import com.lessons.enums.OrderStatus;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

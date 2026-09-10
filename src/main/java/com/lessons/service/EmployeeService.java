@@ -1,9 +1,8 @@
 package com.lessons.service;
 
-import com.lessons.entity.EmployeeEntity;
+import com.lessons.model.entity.EmployeeEntity;
 import com.lessons.enums.EmploymentType;
 import com.lessons.repository.EmployeeRepository;
-import jakarta.persistence.OrderBy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -37,5 +36,29 @@ public class EmployeeService {
 
     public List<EmployeeEntity> getByDepartment(String department) {
         return employeeRepository.findByDepartmentName(department);
+    }
+
+    @Transactional
+    public EmployeeEntity update(Long id, EmployeeEntity employeeEntity) {
+        EmployeeEntity entity = employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found: " + id));
+        entity.setName(employeeEntity.getName());
+        entity.setDepartment(employeeEntity.getDepartment());
+        entity.setSalary(employeeEntity.getSalary());
+        entity.setPersonName(employeeEntity.getPersonName());
+        entity.setContactInfo(employeeEntity.getContactInfo());
+        entity.setType(employeeEntity.getType());
+        return employeeRepository.save(entity);
+    }
+
+    @Transactional
+    public EmployeeEntity patch(Long id, EmployeeEntity employeeEntity) {
+        EmployeeEntity entity = employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found: " + id));
+        if (employeeEntity.getName() != null) entity.setName(employeeEntity.getName());
+        if (employeeEntity.getDepartment() != null) entity.setDepartment(employeeEntity.getDepartment());
+        if (employeeEntity.getSalary() != null) entity.setSalary(employeeEntity.getSalary());
+        if (employeeEntity.getPersonName() != null) entity.setPersonName(employeeEntity.getPersonName());
+        if (employeeEntity.getContactInfo() != null) entity.setContactInfo(employeeEntity.getContactInfo());
+        if (employeeEntity.getType() != null) entity.setType(employeeEntity.getType());
+        return employeeRepository.save(entity);
     }
 }

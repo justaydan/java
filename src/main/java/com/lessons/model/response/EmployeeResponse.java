@@ -1,6 +1,6 @@
 package com.lessons.model.response;
 
-import com.lessons.entity.EmployeeEntity;
+import com.lessons.model.entity.EmployeeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

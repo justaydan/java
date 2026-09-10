@@ -1,6 +1,6 @@
 package com.lessons.service;
 
-import com.lessons.entity.ProductEntity;
+import com.lessons.model.entity.ProductEntity;
 import com.lessons.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +25,14 @@ public class ProductService {
 
     public Optional<ProductEntity> getById(Long id) {
         return repository.findById(id);
+    }
+
+    public ProductEntity update(Long id, ProductEntity productEntity) {
+        ProductEntity existing = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found: " + id));
+        existing.setName(productEntity.getName());
+        existing.setPrice(productEntity.getPrice());
+        existing.setCostPrice(productEntity.getCostPrice());
+        return repository.save(existing);
     }
 }

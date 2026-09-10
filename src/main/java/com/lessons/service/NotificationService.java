@@ -1,6 +1,6 @@
 package com.lessons.service;
 
-import com.lessons.entity.Notification;
+import com.lessons.model.entity.Notification;
 import com.lessons.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,9 +1,8 @@
 package com.lessons.service;
 
-import com.lessons.entity.DepartmentEntity;
+import com.lessons.model.entity.DepartmentEntity;
 import com.lessons.repository.DepartmentRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

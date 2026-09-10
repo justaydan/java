@@ -1,6 +1,6 @@
 package com.lessons.repository;
 
-import com.lessons.entity.ProductEntity;
+import com.lessons.model.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,4 +11,5 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     public Optional<ProductEntity> findById(Long id);
 
     public List<ProductEntity> findAll();
+    public ProductEntity save(ProductEntity entity);
 }

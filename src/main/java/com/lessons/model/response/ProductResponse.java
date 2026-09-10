@@ -1,7 +1,7 @@
 package com.lessons.model.response;
 
-import com.lessons.entity.Money;
-import com.lessons.entity.ProductEntity;
+import com.lessons.model.entity.Money;
+import com.lessons.model.entity.ProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,13 +14,15 @@ public class ProductResponse {
     private String name;
     private Money price;
     private Money costPrice;
+    private String category;
 
     public static ProductResponse from(ProductEntity entity) {
         return new ProductResponse(
                 entity.getId(),
                 entity.getName(),
                 entity.getPrice(),
-                entity.getCostPrice()
+                entity.getCostPrice(),
+                entity.getCategory()
         );
     }
 }

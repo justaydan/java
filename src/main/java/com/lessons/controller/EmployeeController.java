@@ -1,17 +1,17 @@
 package com.lessons.controller;
 
-import com.lessons.entity.EmployeeEntity;
+import com.lessons.model.request.EmployeeRequest;
 import com.lessons.model.response.EmployeeResponse;
 import com.lessons.service.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/employees")
@@ -38,5 +38,15 @@ public class EmployeeController {
                 .toList();
         if (list.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(list);
+    }
+
+    @PutMapping("/{id}")
+    public EmployeeResponse update(@PathVariable Long id, @RequestBody @Valid EmployeeRequest employeeRequest) {
+        return EmployeeResponse.from(employeeService.update(id, employeeRequest.toEntity()));
+    }
+
+    @PatchMapping("/{id}")
+    public EmployeeResponse patch(@PathVariable Long id, @RequestBody EmployeeRequest employeeRequest) {
+        return EmployeeResponse.from(employeeService.patch(id, employeeRequest.toEntity()));
     }
 }

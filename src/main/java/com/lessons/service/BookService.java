@@ -1,10 +1,9 @@
 package com.lessons.service;
 
-import com.lessons.entity.AuthorEntity;
-import com.lessons.entity.BookEntity;
+import com.lessons.model.entity.AuthorEntity;
+import com.lessons.model.entity.BookEntity;
 import com.lessons.repository.AuthorRepository;
 import com.lessons.repository.BookRepository;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

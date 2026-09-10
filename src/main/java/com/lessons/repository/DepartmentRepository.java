@@ -1,11 +1,7 @@
 package com.lessons.repository;
 
-import com.lessons.entity.DepartmentEntity;
-import org.springframework.data.jpa.repository.EntityGraph;
+import com.lessons.model.entity.DepartmentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface DepartmentRepository extends JpaRepository<DepartmentEntity, Long> {
 

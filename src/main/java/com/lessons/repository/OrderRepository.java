@@ -1,6 +1,6 @@
 package com.lessons.repository;
 
-import com.lessons.entity.OrderEntity;
+import com.lessons.model.entity.OrderEntity;
 import com.lessons.enums.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
