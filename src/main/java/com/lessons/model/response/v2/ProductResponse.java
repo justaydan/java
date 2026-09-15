@@ -1,4 +1,4 @@
-package com.lessons.model.response;
+package com.lessons.model.response.v2;
 
 import com.lessons.model.entity.Money;
 import com.lessons.model.entity.ProductEntity;
@@ -10,19 +10,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductResponse {
-    private Long id;
     private String name;
-    private Money price;
-    private Money costPrice;
     private String category;
+    private Money price;
+    private Integer stock;
 
     public static ProductResponse from(ProductEntity entity) {
         return new ProductResponse(
-                entity.getId(),
                 entity.getName(),
+                entity.getCategory(),
                 entity.getPrice(),
-                entity.getCostPrice(),
-                entity.getCategory()
+                entity.getStock()
         );
     }
 }

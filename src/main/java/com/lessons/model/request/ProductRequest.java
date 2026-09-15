@@ -21,7 +21,10 @@ public class ProductRequest {
     @NotNull
     private Money costPrice;
 
+    @NotNull
+    private Integer stock;
+
     public ProductEntity toEntity() {
-        return new ProductEntity(null, name, price, costPrice,category);
+        return new ProductEntity(null, name, price, costPrice, category, stock);
     }
 }

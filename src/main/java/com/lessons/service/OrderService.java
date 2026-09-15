@@ -1,15 +1,9 @@
 package com.lessons.service;
 
 import com.lessons.exception.NotFoundException;
-import com.lessons.exception.OrderNotFoundException;
 import com.lessons.exception.OrderStatusTransitionException;
-import com.lessons.model.entity.CustomerEntity;
 import com.lessons.model.entity.OrderEntity;
-import com.lessons.model.entity.OrderItemEntity;
-import com.lessons.model.entity.ProductEntity;
 import com.lessons.enums.OrderStatus;
-import com.lessons.model.request.OrderItemDto;
-import com.lessons.model.request.OrderRequest;
 import com.lessons.repository.CustomerRepository;
 import com.lessons.repository.OrderRepository;
 import lombok.AllArgsConstructor;
@@ -61,26 +55,7 @@ public class OrderService {
         return order;
     }
 
-    @Transactional
-    public OrderEntity update(Long id, OrderRequest request) {
-        OrderEntity order = orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException("Order not found: " + id));
 
-        CustomerEntity customer = customerRepository.findById(request.getCustomerId())
-                .orElseThrow(() -> new NotFoundException("Customer not found: " + request.getCustomerId()));
-
-        List<OrderItemEntity> newItems = request.getItems().stream()
-                .map(dto -> new OrderItemEntity(null, order, new ProductEntity(dto.getProductId(), null, null, null, null), dto.getQuantity()))
-                .toList();
-
-        order.setCustomer(customer);
-        order.setStatus(request.getStatus());
-        order.setName(request.getName());
-        order.getItems().clear();
-        order.getItems().addAll(newItems);
-
-        return order;
-    }
 
 
 }

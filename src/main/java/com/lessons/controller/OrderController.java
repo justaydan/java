@@ -52,10 +52,7 @@ public class OrderController {
         return ResponseEntity.ok(list);
     }
 
-    @PutMapping(value = "/{id}")
-    public OrderResponse update(@PathVariable Long id, @RequestBody @Valid OrderRequest request) {
-        return OrderResponse.from(orderService.update(id, request));
-    }
+
 
     @PatchMapping("/{id}")
     public OrderResponse patch(@PathVariable Long id, @RequestBody @Valid OrderForUpdateRequest request) {

@@ -34,5 +34,6 @@ public class ProductEntity {
     private Money costPrice;
 
     private String category;
+    private Integer stock;
 
 }
