@@ -1,8 +1,11 @@
 package com.lessons.service;
 
+import com.lessons.exception.NotFoundException;
 import com.lessons.model.entity.ProductEntity;
+import com.lessons.model.request.ProductUpdateDto;
 import com.lessons.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,12 +30,14 @@ public class ProductService {
         return repository.findById(id);
     }
 
-    public ProductEntity update(Long id, ProductEntity productEntity) {
+    @Transactional
+    public ProductEntity update(Long id, ProductUpdateDto dto) {
         ProductEntity existing = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found: " + id));
-        existing.setName(productEntity.getName());
-        existing.setPrice(productEntity.getPrice());
-        existing.setCostPrice(productEntity.getCostPrice());
-        return repository.save(existing);
+                .orElseThrow(() -> new NotFoundException("Product not found: " + id));
+        existing.setName(dto.getName());
+        existing.setCategory(dto.getCategory());
+        existing.setPrice(dto.getPrice());
+        existing.setCostPrice(dto.getCostPrice());
+        return existing;
     }
 }

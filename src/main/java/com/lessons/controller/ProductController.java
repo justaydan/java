@@ -1,6 +1,7 @@
 package com.lessons.controller;
 
 import com.lessons.model.request.ProductRequest;
+import com.lessons.model.request.ProductUpdateDto;
 import com.lessons.model.response.ProductResponse;
 import com.lessons.service.ProductService;
 import jakarta.validation.Valid;
@@ -32,7 +33,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ProductResponse update(@PathVariable Long id, @RequestBody @Valid ProductRequest request) {
-        return ProductResponse.from(productService.update(id, request.toEntity()));
+    public ProductResponse update(@PathVariable Long id, @RequestBody @Valid ProductUpdateDto request) {
+        return ProductResponse.from(productService.update(id, request));
     }
 }

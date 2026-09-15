@@ -8,14 +8,25 @@ import org.springframework.context.ApplicationContext;
 public class LessonsApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(LessonsApplication.class, args);
-//        1. ProductController: /api/products/{id} endpoint-i üçün @PutMapping istifadə edərək
-//        məhsulun tam yenilənməsini (name, price, category) həyata keçirməlisən.
+//      1: `ProductController`-da `/api/products/{id}` endpoint-i yarat. `@PutMapping` ilə
+//      bütün məhsul məlumatlarını (`name`, `price`, `category`) `ProductUpdateDto` vasitəsilə
+//      yenilə. `ProductService`-dən id-yə görə məhsulu tap, DTO-dakı bütün sahələri entity-yə
+//      köçür, yadda saxla.
 
-//        2. EmployeeController: /api/employees/{id} üçün həm @PutMapping (bütün sahələr üçün),
-//        həm də @PatchMapping (yalnız göndərilən sahələr üçün null yoxlaması ilə) yaratmalısan.
 
-//        3. OrderController: /api/orders/{id} üçün @PutMapping (bütün sifarişi yeniləmək)
-//        və @PatchMapping (yalnız statusu yeniləmək və keçid məntiqini yoxlamaq) istifadə etməlisən.
-//        Həmçinin tapılmayan sifarişlər üçün xüsusi OrderNotFoundException istifadəsi tələb olunur.
+//        2: `EmployeeController`-da eyni `/api/employees/{id}` endpoint-ini həm `@PutMapping`,
+//        həm `@PatchMapping` ilə yarat. `PUT` bütün işçi məlumatlarını (`name`, `department`,
+//        `salary`, `email`) yeniləsin. `PATCH` isə yalnız göndərilən sahələri yeniləsin
+//        — məsələn yalnız `salary` göndərildikdə yalnız o dəyişsin, digər sahələr toxunulmaz qalsın.
+//        Bunun üçün `EmployeePatchDto`-dakı sahələri `null` yoxlaması ilə idarə et.
+
+//        3.`OrderController`-da `/api/orders/{id}` endpoint-ini yarat. `@PutMapping` tam
+//        sifarişi (`customerId`, `List<OrderItemDto>`, `status`) yeniləsin, əvvəlki `order_items`
+//        silinib yenisi yazılsın. `@PatchMapping` isə yalnız `status` sahəsini yeniləsin — amma
+//        status keçidi məntiqini yoxla (`DELIVERED`-dən `NEW`-ə qayıtmaq mümkün olmasın). Hər iki
+//        metodda `@PathVariable` ilə gələn `id` tapılmadıqda özün yaratdığın `OrderNotFoundException`
+//        atılsın.
+
+
     }
 }

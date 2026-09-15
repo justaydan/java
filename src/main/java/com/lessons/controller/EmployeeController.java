@@ -1,5 +1,6 @@
 package com.lessons.controller;
 
+import com.lessons.model.request.EmployeePatchDto;
 import com.lessons.model.request.EmployeeRequest;
 import com.lessons.model.response.EmployeeResponse;
 import com.lessons.service.EmployeeService;
@@ -46,7 +47,7 @@ public class EmployeeController {
     }
 
     @PatchMapping("/{id}")
-    public EmployeeResponse patch(@PathVariable Long id, @RequestBody EmployeeRequest employeeRequest) {
-        return EmployeeResponse.from(employeeService.patch(id, employeeRequest.toEntity()));
+    public EmployeeResponse patch(@PathVariable Long id, @RequestBody EmployeePatchDto dto) {
+        return EmployeeResponse.from(employeeService.patch(id, dto));
     }
 }
