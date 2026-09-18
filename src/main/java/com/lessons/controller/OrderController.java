@@ -72,4 +72,5 @@ public class OrderController {
     public OrderResponseDtoV2 createV2(@RequestBody @Valid OrderRequestDto request) {
         return orderService.toResponseDtoV2(orderService.createOrder(request));
     }
+
 }

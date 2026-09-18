@@ -1,7 +1,7 @@
 package com.lessons.service;
 
-import com.lessons.exception.NotFoundException;
-import com.lessons.exception.OrderStatusTransitionException;
+import com.lessons.enums.CustomerStatus;
+import com.lessons.exception.*;
 import com.lessons.model.entity.*;
 import com.lessons.enums.OrderStatus;
 import com.lessons.model.request.OrderRequestDto;
@@ -51,10 +51,10 @@ public class OrderService {
     @Transactional
     public OrderEntity updateStatus(Long id, OrderStatus newStatus) {
         OrderEntity order = orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Order not found: " + id));
+                .orElseThrow(() -> new OrderNotFoundException("Order not found: " + id));
 
         if (!order.getStatus().canTransitionTo(newStatus) && order.getStatus() != newStatus) {
-            throw new OrderStatusTransitionException("Cannot transition from " + order.getStatus() + " to " + newStatus);
+            throw new InvalidStatusTransitionException("Cannot transition from " + order.getStatus() + " to " + newStatus);
         }
 
         order.setStatus(newStatus);
@@ -67,6 +67,9 @@ public class OrderService {
     public OrderEntity createOrder(OrderRequestDto dto) {
         CustomerEntity customer = customerRepository.findById(dto.getCustomerId())
                 .orElseThrow(() -> new NotFoundException("Customer not found: " + dto.getCustomerId()));
+
+        if (customer.getStatus() == CustomerStatus.BLOCKED)
+            throw new CustomerBlockedException("Customer is blocked");
 
         ProductEntity product = productRepository.findById(dto.getProductId())
                 .orElseThrow(() -> new NotFoundException("Product not found: " + dto.getProductId()));

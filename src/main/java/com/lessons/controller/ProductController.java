@@ -1,5 +1,6 @@
-package com.lessons.controller.v1;
+package com.lessons.controller;
 
+import com.lessons.exception.ProductNotFoundException;
 import com.lessons.model.request.ProductUpdateDto;
 import com.lessons.model.response.v1.ProductResponse;
 import com.lessons.service.ProductService;
@@ -21,7 +22,7 @@ public class ProductController {
     public ProductResponse getById(@PathVariable Long id) {
         return productService.getById(id)
                 .map(ProductResponse::from)
-                .orElseThrow(() -> new RuntimeException("Product not found: " + id));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found: " + id));
     }
 
     @GetMapping
