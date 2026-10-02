@@ -8,6 +8,9 @@ import lombok.Data;
 public class OrderRequestDto {
 
     @NotNull
+    private Long userId;
+
+    @NotNull
     private Long customerId;
 
     @NotNull

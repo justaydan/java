@@ -1,5 +1,6 @@
 package com.lessons.service;
 
+import com.lessons.client.UserServiceClient;
 import com.lessons.enums.CustomerStatus;
 import com.lessons.exception.*;
 import com.lessons.model.entity.*;
@@ -27,6 +28,7 @@ public class OrderService {
     private OrderRepository orderRepository;
     private CustomerRepository customerRepository;
     private ProductRepository productRepository;
+    private UserServiceClient userServiceClient;
 
     public void save(OrderEntity entity) {
         orderRepository.save(entity);
@@ -65,6 +67,8 @@ public class OrderService {
 
     @Transactional
     public OrderEntity createOrder(OrderRequestDto dto) {
+        userServiceClient.getUserById(dto.getUserId()); // 404 → UserNotFoundException
+
         CustomerEntity customer = customerRepository.findById(dto.getCustomerId())
                 .orElseThrow(() -> new NotFoundException("Customer not found: " + dto.getCustomerId()));
 
