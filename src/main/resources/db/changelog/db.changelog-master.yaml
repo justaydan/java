@@ -1,0 +1,67 @@
+databaseChangeLog:
+  - changeSet:
+      id: V1__create_products_table
+      author: aydan
+      changes:
+        - sqlFile:
+            path: db/changelog/V1__create_products_table.sql
+            relativeToChangelogFile: false
+      rollback:
+        - sql: DROP TABLE IF EXISTS products;
+
+  - changeSet:
+      id: V2__add_category_to_products
+      author: aydan
+      changes:
+        - sqlFile:
+            path: db/changelog/V2__add_category_to_products.sql
+            relativeToChangelogFile: false
+      rollback:
+        - sql: ALTER TABLE products DROP COLUMN IF EXISTS category;
+
+  - changeSet:
+      id: V3__insert_sample_products
+      author: aydan
+      changes:
+        - sqlFile:
+            path: db/changelog/V3__insert_sample_products.sql
+            relativeToChangelogFile: false
+      rollback:
+        - sql: DELETE FROM products WHERE name IN ('Laptop', 'Notebook', 'Headphones', 'Desk Chair', 'USB Cable');
+
+  # Prod-da işə düşmüş səhv changeset-i yeni changeset ilə düzəldirik.
+  # Əsas qayda: heç vaxt köhnə changeset-i dəyişmə — yeni bir changeset yaz.
+  - changeSet:
+      id: V4__fix_category_nullable
+      author: aydan
+      comment: "V2-deki sehvi duzeldiri: category NOT NULL idi, optional olmalidir"
+      changes:
+        - sqlFile:
+            path: db/changelog/V4__fix_category_nullable.sql
+            relativeToChangelogFile: false
+      rollback:
+        # V4-u geri almaq lazım gəlsə: category-ni yenidən NOT NULL edirik
+        - sql: |
+            ALTER TABLE products ALTER COLUMN category SET DEFAULT 'GENERAL';
+            UPDATE products SET category = 'GENERAL' WHERE category IS NULL;
+            ALTER TABLE products ALTER COLUMN category SET NOT NULL;
+
+  # Precondition: description sütunu artıq varsa SKIP et, FAIL etmə.
+  # onFail: SKIP — şərt ödənilmədikdə changeset atlanır, xəta vermir.
+  # onError: HALT — precondition özü xəta verərsə tətbiq dayanır.
+  - changeSet:
+      id: V5__add_description_column
+      author: aydan
+      preConditions:
+        onFail: SKIP
+        onError: HALT
+        not:
+          - columnExists:
+              tableName: products
+              columnName: description
+      changes:
+        - sqlFile:
+            path: db/changelog/V5__add_description_column.sql
+            relativeToChangelogFile: false
+      rollback:
+        - sql: ALTER TABLE products DROP COLUMN IF EXISTS description;
