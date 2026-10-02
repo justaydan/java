@@ -7,6 +7,6 @@ public class UserServiceClientConfig {
 
     @Bean
     public ErrorDecoder errorDecoder() {
-        return new UserServiceClientErrorDecoder();
+        return new UserServiceErrorDecoder();
     }
 }

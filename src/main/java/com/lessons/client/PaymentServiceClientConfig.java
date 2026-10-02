@@ -1,5 +1,6 @@
 package com.lessons.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.codec.ErrorDecoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,7 @@ public class PaymentServiceClientConfig {
     }
 
     @Bean
-    public ErrorDecoder errorDecoder() {
-        return new PaymentServiceClientErrorDecoder();
+    public ErrorDecoder errorDecoder(ObjectMapper objectMapper) {
+        return new PaymentErrorDecoder(objectMapper);
     }
 }
